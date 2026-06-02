@@ -79,6 +79,7 @@ volumes:
 networks:
   monitoring:
     driver: bridge
+    name: monitoring
   nginx-proxy:
     external: true
     name: nginx-net
