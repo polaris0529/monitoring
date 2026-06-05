@@ -27,8 +27,16 @@ services:
     container_name: prometheus
     networks:
       - monitoring
+      - nginx-proxy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:9090/-/healthy"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./rules:/etc/prometheus/rules:ro
       - prometheus-prometheus-data:/prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
@@ -55,6 +63,12 @@ services:
       - .env
     volumes:
       - prometheus-grafana-data:/var/lib/grafana
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     depends_on:
       prometheus:
         condition: service_started
@@ -78,7 +92,7 @@ volumes:
 
 networks:
   monitoring:
-    driver: bridge
+    external: true
     name: monitoring
   nginx-proxy:
     external: true
