@@ -40,6 +40,8 @@ services:
       - .env
     volumes:
       - prometheus-grafana-data:/var/lib/grafana
+      - ./provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./dashboards:/var/lib/grafana/dashboards:ro
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 30s
