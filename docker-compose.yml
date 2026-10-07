@@ -1,6 +1,6 @@
 services:
   prometheus:
-    image: prom/prometheus:v2.48.0
+    image: prom/prometheus:v2.55.1
     container_name: prometheus
     networks:
       - monitoring
@@ -31,7 +31,7 @@ services:
         max-file: "5"
 
   grafana:
-    image: grafana/grafana:10.2.2
+    image: grafana/grafana:10.4.19
     container_name: grafana
     networks:
       - monitoring
@@ -62,7 +62,7 @@ services:
         max-file: "5"
 
   node-exporter:
-    image: prom/node-exporter:v1.7.0
+    image: prom/node-exporter:v1.12.1
     container_name: host-node-exporter
     pid: host
     networks:
